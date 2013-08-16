@@ -328,7 +328,7 @@
     id enemyBlowUpEnd=[CCCallFuncND actionWithTarget:self selector:@selector(enemyBlowUpEndedWithAction:Sprite:) data:enemy];
     [enemy stopAllActions];
     [enemy runAction:[CCSequence actions:blowUpAction,enemyBlowUpEnd,nil]];
-
+    
 }
 
 -(void)enemyBlowUpEndedWithAction:(CCAction*)action Sprite:(CCSprite*)enemySprite{
@@ -403,16 +403,18 @@
     touchLocation=[[CCDirector sharedDirector]convertToGL:touchLocation];
     
     if(CGRectContainsPoint(bomb.boundingBox, touchLocation)){
-        bombCount--;
-        if(bombCount==0){
-            bomb.visible=false;
+        if(bombCount>0){
+            bombCount--;
+            if(bombCount==0){
+                bomb.visible=false;
+            }
+            
+            for(CCSprite *enemy in enemies){
+                [self blowUpWithEnemy:enemy];
+            }
+            
+            [enemies removeAllObjects];
         }
-        
-        for(CCSprite *enemy in enemies){
-            [self blowUpWithEnemy:enemy];
-        }
-        
-        [enemies removeAllObjects];
     }
 }
 
