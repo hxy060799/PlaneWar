@@ -12,8 +12,13 @@
     CCSprite *backgroundSprite_1;
     CCSprite *backgroundSprite_2;
     
+    CCSprite *playerPlane;
+    
     CGSize winSize;
     float backgroundHeight;
+    
+    NSMutableArray *enemies;
+    NSMutableArray *bullets;
 }
 
 +(CCScene*)scene;
