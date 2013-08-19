@@ -168,7 +168,7 @@
     
     CCSprite *enemy=[CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"enemy%i_fly_1.png",type]];
     enemy.anchorPoint=ccp(0.5,0);
-    enemy.position=ccp(arc4random()%(int)(winSize.width+1),winSize.height);
+    enemy.position=ccp(20+arc4random()%(int)(winSize.width-40+1),winSize.height);
     [self addChild:enemy z:4];
     
     //Tag用于记录敌机类型和HP值(这比再写一个类要方便多了)
