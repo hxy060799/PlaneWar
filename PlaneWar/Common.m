@@ -9,12 +9,11 @@
 
 #define ARC4RANDOM_MAX 0x100000000
 
-float randomFloatRange(float begin, float end){
-    float range = end - begin;
-    float result = ((float)arc4random() / ARC4RANDOM_MAX) * range + begin;
-    return result;
+CGFloat randomFloatRange(CGFloat begin, CGFloat end){
+    CGFloat range = end - begin;
+    return ((CGFloat)arc4random() / ARC4RANDOM_MAX) * range + begin;
 }
 
-int randomIntRange(int begin, int end){
+NSInteger randomIntRange(NSInteger begin, NSInteger end){
     return arc4random()%(end-begin+1)+begin;
 }

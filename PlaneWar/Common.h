@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-float randomFloatRange(float begin, float end);
-int randomIntRange(int begin, int end);
+CGFloat randomFloatRange(CGFloat begin, CGFloat end);
+NSInteger randomIntRange(NSInteger begin, NSInteger end);
 
