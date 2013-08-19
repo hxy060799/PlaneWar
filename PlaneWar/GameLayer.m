@@ -45,6 +45,7 @@ static NSInteger hpBuffer = 10;
         [self startShowEnemies];
         [self startCheckCollision];
         [self loadBombButton];
+        [self loadPauseButton];
         [self startShowProps];
         [self loadScoreLabel];
     }
@@ -406,6 +407,14 @@ static NSInteger hpBuffer = 10;
     [bomb setVisible:NO];
 }
 
+-(void)loadPauseButton{
+    pause=[CCSprite spriteWithSpriteFrameName:@"game_pause.png"];
+    pause.anchorPoint = ccp(0,0);
+    pause.position = ccp(winSize.width*0.85, winSize.height*0.9);
+    [self addChild:pause];
+    [pause setVisible:YES];
+}
+
 //触摸处理
 
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -426,11 +435,20 @@ static NSInteger hpBuffer = 10;
             
             [enemies removeAllObjects];
         }
+    }else if (CGRectContainsPoint(pause.boundingBox, touchLocation)){
+        if ([[CCDirector sharedDirector] isPaused]) {
+            [[CCDirector sharedDirector] resume];
+        }else{
+            [[CCDirector sharedDirector] pause];
+        }
     }
 }
 
 -(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    
+    if ([[CCDirector sharedDirector] isPaused]) {
+        return;
+    }
+
     UITouch *touch=[touches anyObject];
     CGPoint touchLocation=[touch locationInView:touch.view];
     touchLocation=[[CCDirector sharedDirector]convertToGL:touchLocation];

@@ -15,6 +15,8 @@
     CCSprite *playerPlane;
     
     CCSprite *bomb;
+
+    CCSprite *pause;
     
     CCLabelTTF *scoreLabel;
     
