@@ -11,6 +11,16 @@
 
 @implementation GameLayer
 
+/**
+ *  防止出现短时间内击中敌机使得其HP<0导致的type改变
+ *  原理：tag = type * 100 + hp，
+ *  如果敌机type = 2 ，hp = 0，在系统未完成敌机死亡检测时再次被击中，则从tag计算得出的type变成1
+ *  加上Buffer后，即使hp变成-1，tag值依然大于type * 100
+ *  计算hp时减去Buffer即可
+ *  PS 依然是ugly hack
+ */
+static NSInteger hpBuffer = 10;
+
 //基本方法
 
 +(CCScene*)scene{
@@ -173,7 +183,7 @@
     [self addChild:enemy z:4];
     
     //Tag用于记录敌机类型和HP值(这比再写一个类要方便多了)
-    [enemy setTag:type*100+hp];
+    [enemy setTag:type*100+hp+hpBuffer];
     
     [enemies addObject:enemy];
     
@@ -470,7 +480,7 @@
 }
 
 -(int)getEnemyHpWithTag:(NSUInteger)tag{
-    return tag%100;
+    return tag%100-hpBuffer;
 }
 
 //对话框回调
