@@ -7,6 +7,7 @@
 //
 
 #import "GameLayer.h"
+#import "Common.h"
 
 @implementation GameLayer
 
@@ -168,7 +169,7 @@
     
     CCSprite *enemy=[CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"enemy%i_fly_1.png",type]];
     enemy.anchorPoint=ccp(0.5,0);
-    enemy.position=ccp(20+arc4random()%(int)(winSize.width-40+1),winSize.height);
+    enemy.position=ccp(randomFloatRange(20.0, winSize.width-20.0),winSize.height);
     [self addChild:enemy z:4];
     
     //Tag用于记录敌机类型和HP值(这比再写一个类要方便多了)
@@ -181,7 +182,7 @@
         [enemy runAction:action];
     }
     
-    id enemyMoveDown=[CCMoveBy actionWithDuration:5.0f position:ccp(0,-winSize.height-enemy.boundingBox.size.height)];
+    id enemyMoveDown=[CCMoveBy actionWithDuration:(randomFloatRange(3.0, 6.0)) position:ccp(0,-winSize.height-enemy.boundingBox.size.height)];
     id enemyMoveEnd=[CCCallFuncND actionWithTarget:self selector:@selector(enemyMoveEndedWithAction:Sprite:) data:enemy];
     
     [enemy runAction:[CCSequence actions:enemyMoveDown,enemyMoveEnd,nil]];

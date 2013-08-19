@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A40FF94D17C1F8AF00CA29BB /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = A40FF94C17C1F8AF00CA29BB /* Common.m */; };
 		A9466EDF17BDDC9E009232EA /* gameArts-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9466EDD17BDDC9E009232EA /* gameArts-hd.plist */; };
 		A9466EE017BDDC9E009232EA /* gameArts-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = A9466EDE17BDDC9E009232EA /* gameArts-hd.png */; };
 		A948CDCF17BDD5A300BB9EC9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A948CDCE17BDD5A300BB9EC9 /* QuartzCore.framework */; };
@@ -149,6 +150,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A40FF94B17C1F8AF00CA29BB /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		A40FF94C17C1F8AF00CA29BB /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
 		A9466EDD17BDDC9E009232EA /* gameArts-hd.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "gameArts-hd.plist"; sourceTree = "<group>"; };
 		A9466EDE17BDDC9E009232EA /* gameArts-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gameArts-hd.png"; sourceTree = "<group>"; };
 		A948CDCB17BDD5A300BB9EC9 /* PlaneWar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlaneWar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -498,14 +501,16 @@
 			children = (
 				A948CF7317BDD5A500BB9EC9 /* AppDelegate.h */,
 				A948CF7417BDD5A500BB9EC9 /* AppDelegate.m */,
-				A948CF7617BDD5A500BB9EC9 /* HelloWorldLayer.h */,
-				A948CF7717BDD5A500BB9EC9 /* HelloWorldLayer.m */,
+				A40FF94B17C1F8AF00CA29BB /* Common.h */,
+				A40FF94C17C1F8AF00CA29BB /* Common.m */,
 				A948CF8117BDD5F200BB9EC9 /* GameLayer.h */,
 				A948CF8217BDD5F200BB9EC9 /* GameLayer.m */,
+				A948CF7617BDD5A500BB9EC9 /* HelloWorldLayer.h */,
+				A948CF7717BDD5A500BB9EC9 /* HelloWorldLayer.m */,
 				A948CF7917BDD5A500BB9EC9 /* IntroLayer.h */,
 				A948CF7A17BDD5A500BB9EC9 /* IntroLayer.m */,
-				A948CDE317BDD5A300BB9EC9 /* Resources */,
 				A948CDFB17BDD5A300BB9EC9 /* libs */,
+				A948CDE317BDD5A300BB9EC9 /* Resources */,
 				A948CF6F17BDD5A500BB9EC9 /* Supporting Files */,
 			);
 			path = PlaneWar;
@@ -1086,6 +1091,7 @@
 				A948CF7817BDD5A500BB9EC9 /* HelloWorldLayer.m in Sources */,
 				A948CF7B17BDD5A500BB9EC9 /* IntroLayer.m in Sources */,
 				A948CF8317BDD5F200BB9EC9 /* GameLayer.m in Sources */,
+				A40FF94D17C1F8AF00CA29BB /* Common.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
