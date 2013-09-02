@@ -458,11 +458,9 @@ static NSInteger hpBuffer = 10;
     
     CGPoint translation=ccpSub(touchLocation,oldTouchLocation);
     
-    if(CGRectContainsPoint(playerPlane.boundingBox,touchLocation)){
-        CGPoint newPos = ccpAdd(playerPlane.position,translation);
-        if(CGRectContainsRect(CGRectMake(0,0,winSize.width,winSize.height),[self newRectWithSize:playerPlane.boundingBox.size Point:newPos AnchorPoint:ccp(0.5,0.5)])){
-            playerPlane.position = newPos;
-        }
+    CGPoint newPos = ccpAdd(playerPlane.position,translation);
+    if(CGRectContainsRect(CGRectMake(0,0,winSize.width,winSize.height),[self newRectWithSize:playerPlane.boundingBox.size Point:newPos AnchorPoint:ccp(0.5,0.5)])){
+        playerPlane.position = newPos;
     }
 }
 
