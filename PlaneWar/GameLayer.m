@@ -7,8 +7,19 @@
 //
 
 #import "GameLayer.h"
+#import "Common.h"
 
 @implementation GameLayer
+
+/**
+ *  防止出现短时间内击中敌机使得其HP<0导致的type改变
+ *  原理：tag = type * 100 + hp，
+ *  如果敌机type = 2 ，hp = 0，在系统未完成敌机死亡检测时再次被击中，则从tag计算得出的type变成1
+ *  加上Buffer后，即使hp变成-1，tag值依然大于type * 100
+ *  计算hp时减去Buffer即可
+ *  PS 依然是ugly hack
+ */
+static NSInteger hpBuffer = 10;
 
 //基本方法
 
@@ -34,6 +45,7 @@
         [self startShowEnemies];
         [self startCheckCollision];
         [self loadBombButton];
+        [self loadPauseButton];
         [self startShowProps];
         [self loadScoreLabel];
     }
@@ -168,11 +180,11 @@
     
     CCSprite *enemy=[CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"enemy%i_fly_1.png",type]];
     enemy.anchorPoint=ccp(0.5,0);
-    enemy.position=ccp(arc4random()%(int)(winSize.width+1),winSize.height);
+    enemy.position=ccp(randomFloatRange(20.0, winSize.width-20.0),winSize.height);
     [self addChild:enemy z:4];
     
     //Tag用于记录敌机类型和HP值(这比再写一个类要方便多了)
-    [enemy setTag:type*100+hp];
+    [enemy setTag:type*100+hp+hpBuffer];
     
     [enemies addObject:enemy];
     
@@ -181,7 +193,7 @@
         [enemy runAction:action];
     }
     
-    id enemyMoveDown=[CCMoveBy actionWithDuration:5.0f position:ccp(0,-winSize.height-enemy.boundingBox.size.height)];
+    id enemyMoveDown=[CCMoveBy actionWithDuration:(randomFloatRange(3.0, 6.0)) position:ccp(0,-winSize.height-enemy.boundingBox.size.height)];
     id enemyMoveEnd=[CCCallFuncND actionWithTarget:self selector:@selector(enemyMoveEndedWithAction:Sprite:) data:enemy];
     
     [enemy runAction:[CCSequence actions:enemyMoveDown,enemyMoveEnd,nil]];
@@ -395,6 +407,14 @@
     [bomb setVisible:NO];
 }
 
+-(void)loadPauseButton{
+    pause=[CCSprite spriteWithSpriteFrameName:@"game_pause.png"];
+    pause.anchorPoint = ccp(0,0);
+    pause.position = ccp(winSize.width*0.85, winSize.height*0.9);
+    [self addChild:pause];
+    [pause setVisible:YES];
+}
+
 //触摸处理
 
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -415,11 +435,20 @@
             
             [enemies removeAllObjects];
         }
+    }else if (CGRectContainsPoint(pause.boundingBox, touchLocation)){
+        if ([[CCDirector sharedDirector] isPaused]) {
+            [[CCDirector sharedDirector] resume];
+        }else{
+            [[CCDirector sharedDirector] pause];
+        }
     }
 }
 
 -(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    
+    if ([[CCDirector sharedDirector] isPaused]) {
+        return;
+    }
+
     UITouch *touch=[touches anyObject];
     CGPoint touchLocation=[touch locationInView:touch.view];
     touchLocation=[[CCDirector sharedDirector]convertToGL:touchLocation];
@@ -429,11 +458,9 @@
     
     CGPoint translation=ccpSub(touchLocation,oldTouchLocation);
     
-    if(CGRectContainsPoint(playerPlane.boundingBox,touchLocation)){
-        CGPoint newPos = ccpAdd(playerPlane.position,translation);
-        if(CGRectContainsRect(CGRectMake(0,0,winSize.width,winSize.height),[self newRectWithSize:playerPlane.boundingBox.size Point:newPos AnchorPoint:ccp(0.5,0.5)])){
-            playerPlane.position = newPos;
-        }
+    CGPoint newPos = ccpAdd(playerPlane.position,translation);
+    if(CGRectContainsRect(CGRectMake(0,0,winSize.width,winSize.height),[self newRectWithSize:playerPlane.boundingBox.size Point:newPos AnchorPoint:ccp(0.5,0.5)])){
+        playerPlane.position = newPos;
     }
 }
 
@@ -469,7 +496,7 @@
 }
 
 -(int)getEnemyHpWithTag:(NSUInteger)tag{
-    return tag%100;
+    return tag%100-hpBuffer;
 }
 
 //对话框回调
